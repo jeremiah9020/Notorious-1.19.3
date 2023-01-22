@@ -3,6 +3,7 @@ package net.jabberjerry.notorious.event;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.jabberjerry.notorious.screen.MenuScreen;
 import net.jabberjerry.notorious.screen.TitleScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
@@ -35,8 +36,10 @@ public class InputHandlers {
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
             long handle = client.getWindow().getHandle();
 
+
+
             if (getPressed(shootKey.getBoundKeyTranslationKey(),handle)) {
-                if (client.player != null) client.player.sendMessage(Text.literal("Shooting!"));
+                if (client.player != null && client.currentScreen != null) client.player.sendMessage(client.currentScreen.getTitle());
             }
             if (getPressed(adsKey.getBoundKeyTranslationKey(),handle)) {
                 if (client.player != null) client.player.sendMessage(Text.literal("ADSing!"));
@@ -48,7 +51,7 @@ public class InputHandlers {
                 if (client.player != null) client.player.sendMessage(Text.literal("Changing Fire Type!"));
             }
             if (getPressed(menuKey.getBoundKeyTranslationKey(),handle)) {
-                if (client.player != null) client.setScreen(new TitleScreen());
+                if (client.player != null) client.setScreen(new MenuScreen());
             }
         });
     }
